@@ -29,6 +29,7 @@ class Scanner {
     func nextInt() -> Int? {
         let remains = self.remains
         if let int = Int(remains) {
+            self.index = name.endIndex
             return int
         }
         let decimalDigits = "0123456789"
@@ -36,6 +37,7 @@ class Scanner {
             return nil
         }
         let int = remains.prefix(upTo: index)
+        self.index = index
         return Int(int)
     }
 }
