@@ -19,12 +19,23 @@ $ open SwiftDemangler.xcodeproj
 今回はもっともシンプルな関数+αのDemangleのみを扱います。
 完全なドキュメントはSwiftレポジトリの[docs/ABI/Mangling.rst](https://github.com/apple/swift/blob/master/docs/ABI/Mangling.rst)を参照してください。
 
-### Prefix
+### Mangling
 
-Swift4.2のみサポートします。
+Swift4.2のPrefixのみサポートします。
+このDemanglerが扱えるすべての名前にはPrefixとして`$S`がつきます。
 
 ```
 mangled-name ::= '$S'
+```
+
+Prefixあとから`global`が始まります。
+今回は`$S(モジュール名)(エンティティ)` のもっともシンプルな形のみ扱います。
+
+```
+global ::= entity
+entity ::= context entity-spec
+context ::= module
+module ::= identifier
 ```
 
 ### Entity
@@ -32,12 +43,10 @@ mangled-name ::= '$S'
 今回は一部の非ジェネリックな関数のみ扱います。
 
 ```
-global ::= entity
-entity ::= context entity-spec
-context ::= module
-module ::= identifier
 entity-spec ::= decl-name label-list function-signature  'F'
 function-signature ::= params-type params-type throws? // return and params
+label-list ::= empty-list            // represents complete absence of parameter labels
+label-list ::= ('_' | identifier)*
 throws ::= 'K' 
 params-type ::= type
 decl-name ::= identifier
