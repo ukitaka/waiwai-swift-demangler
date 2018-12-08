@@ -9,7 +9,7 @@ import XCTest
 @testable import SwiftDemangler
 
 class ScannerTest: XCTestCase {
-    func testScanner() {
+    func testNextInt() {
         var scanner = Scanner(name: "0")
         XCTAssertEqual(scanner.nextInt(), 0)
         XCTAssertEqual(scanner.remains, "")
@@ -26,5 +26,16 @@ class ScannerTest: XCTestCase {
         XCTAssertEqual(scanner.nextInt(), 1)
         XCTAssertEqual(scanner.remains, "B2A")
         XCTAssertEqual(scanner.nextInt(), nil)
+    }
+
+    func testNextIdentifier() {
+        let scanner = Scanner(name: "3ABC4DEFG")
+        XCTAssertEqual(scanner.nextInt(), 3)
+        XCTAssertEqual(scanner.remains, "ABC4DEFG")
+        XCTAssertEqual(scanner.nextIdentifier(length: 3), "ABC")
+        XCTAssertEqual(scanner.remains, "4DEFG")
+        XCTAssertEqual(scanner.nextInt(), 4)
+        XCTAssertEqual(scanner.remains, "DEFG")
+        XCTAssertEqual(scanner.nextIdentifier(length: 4), "DEFG")
     }
 }

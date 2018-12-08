@@ -36,8 +36,16 @@ class Scanner {
         guard let index = remains.firstIndex(where: { c in !decimalDigits.contains(c) }) else {
             return nil
         }
-        let int = remains.prefix(upTo: index)
-        self.index = index
-        return Int(int)
+        guard let int = Int(remains.prefix(upTo: index)) else {
+            return nil
+        }
+        self.index = self.name.index(self.index, offsetBy: (int / 10) + 1)
+        return int
+    }
+    
+    func nextIdentifier(length: Int) -> String {
+        let remains = self.remains
+        self.index = self.name.index(self.index, offsetBy: length)
+        return String(remains.prefix(length))
     }
 }
