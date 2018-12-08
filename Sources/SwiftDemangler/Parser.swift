@@ -49,3 +49,25 @@ extension Parser {
         return parseIdentifier(length: lengh)
     }
 }
+
+extension Parser {
+    func parsePrefix() -> String {
+        guard name.hasPrefix("$S") else {
+            fatalError()
+        }
+        self.index = self.name.index(self.index, offsetBy: 2)
+        return "$S"
+    }
+    
+    func parseModule() -> String {
+        return parseIdentifier()!
+    }
+}
+
+// MARK: -
+
+extension Parser {
+    func parseDeclName() -> String {
+        return parseIdentifier()!
+    }
+}
