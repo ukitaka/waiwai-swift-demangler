@@ -158,3 +158,47 @@ kind=Global
 $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.Int) -> Swift.Bool
 ```
 
+進め方は自由ですが、もしわからなければ以下の手順でやってみるとよいです。
+
+### Step1 - Prefix / Entityの種類を判別する
+
+まずウォーミングアップとして最初にPrefixとSuffixを読んでみましょう。
+
++ 与えられたStringのPrefixが`$S`であることを確認してBoolを返す `isSwiftSymbol` 関数
++ 与えられたStringのSuffixが`F`であることを確認してBoolを返す `isFunctionEntitySpec` 関数
+
+```swift
+let name = "$S13ExampleNumber6isEven6numberSbSi_tF"
+isSwiftSymbol(name: name) // true
+isFunctionEntitySpec(name: name) // true
+```
+
+## Step2 - 簡易Parserを作って数字とその文字分の文字列読み取る機能を作る
+
+Mangleされた名前の中には「ここから何文字分がIdentifierか」を表す数字が含まれています。
+たとえば`13ExampleNumber` であれば`ExampleNumber` の13文字分が1つのIdentifierであることを表しています。
+
+こんな感じで簡単なParserを作ってみましょう。
+
+```swift
+class Parser {
+  private let name: String
+  private var index: String.Index
+
+  var remains: String { return String(name[index...]) }
+
+  init(name: String) {
+    self.name = name
+    self.index = name.startIndex
+  }
+}
+```
+
+まずは、先頭から数字を読み取るメソッドを作ってみましょう。
+
+```swift
+extension Parser {
+  func parseInt() -> Int? { ... }
+}
+```
+
