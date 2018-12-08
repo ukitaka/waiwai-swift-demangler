@@ -13,4 +13,9 @@ class SwiftDemanglerTest: XCTestCase {
         XCTAssertTrue(isSwiftSymbol(name: "$S13ExampleNumber6isEven6numberSbSi_tF"))
         XCTAssertFalse(isSwiftSymbol(name: "ABCDEFG"))
     }
+    
+    func testIsFunctionEntitySpec() {
+        XCTAssertTrue(isFunctionEntitySpec(name: "$S13ExampleNumber6isEven6numberSbSi_tF"))
+        XCTAssertFalse(isFunctionEntitySpec(name: "ABCDEFG"))
+    }
 }

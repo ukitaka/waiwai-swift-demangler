@@ -6,3 +6,7 @@ public func demangle(name: String) -> String {
 func isSwiftSymbol(name: String) -> Bool {
     return name.hasPrefix("$S")
 }
+
+func isFunctionEntitySpec(name: String) -> Bool {
+    return name.hasSuffix("F")
+}
