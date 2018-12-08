@@ -145,9 +145,25 @@ extension Parser {
             while lookahead() != "t" {
                 list.append(parseKnownType())
             }
+            skip(length: 1)
             return .list(list)
         } else {
             return firstType
         }
+    }
+}
+
+// MARK: - Step7
+
+struct FunctionSignature: Equatable {
+    let returnType: Type
+    let argsType: Type
+}
+
+extension Parser {
+    func parseFunctionSignature() -> FunctionSignature {
+        let returnType = self.parseType()
+        let argsType = self.parseType()
+        return FunctionSignature(returnType: returnType, argsType: argsType)
     }
 }

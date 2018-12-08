@@ -60,4 +60,8 @@ class ParserTest: XCTestCase {
         XCTAssertEqual(Parser(name: "Sf").parseType(), .float)
         XCTAssertEqual(Parser(name: "Sf_SfSft").parseType(), .list([.float, .float, .float]))
     }
+    
+    func testFunctionSignature() {
+        XCTAssertEqual(Parser(name: "SbSi_t").parseFunctionSignature(), FunctionSignature(returnType: .bool, argsType: .list([.int])))
+    }
 }

@@ -454,3 +454,25 @@ SbSi_t
 引数の部分は`Int`ではなく`(Int)` という要素数1のlistで表現されているため`Si_t`のようになっています。
 
 
+Parserを書く前に、function-signatureを表す型を作ってあげましょう。
+
+```swift
+struct FunctionSignature: Equatable {
+    let returnType: Type
+    let argsType: Type
+}
+```
+
+あとは先ほど作った`parseType`を使って型を2つ読んであげるだけです。
+
+```swift
+extension Parser {
+    func parseFunctionSignature() -> FunctionSignature { ... }
+}
+```
+
+```swift
+XCTAssertEqual(Parser(name: "SbSi_t").parseFunctionSignature(), FunctionSignature(returnType: .bool, argsType: .list([.int])))
+```
+
+
