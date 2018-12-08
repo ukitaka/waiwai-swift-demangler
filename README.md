@@ -355,5 +355,15 @@ Swiftの基本的な型は`standard-substitutions`という省略形で表現さ
 ```
 standard-substitutions ::= 'S' KNOWN-TYPE-KIND
 KNOWN-TYPE-KIND ::= 'b' // Swift.Bool
-KNOWN-TYPE-KIND ::= 'i' // Swift.In<Paste>
+KNOWN-TYPE-KIND ::= 'i' // Swift.Int
+```
+
+引数の部分は`Int`ではなく`(Int)` という要素数1のlistで表現されているため`Si_t`のようになっています。
+`t`がリストの終わりを表しています。
+
+```
+type ::= type-list 't' 
+type-list ::= list-type '_' list-type*
+type-list ::= empty-list
+empty-list ::= 'y'
 ```
