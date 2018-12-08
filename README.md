@@ -391,7 +391,7 @@ empty-list ::= 'y'
 
 一つ目の要素のあとに`_` がつき、 `t`がリストの終わりを表しています。たとえばもし`isEven`がこのような定義だったとすると
 
-```
+```swift
 func isEven(number: Int, hoge: String, fuga: Float) -> Bool { ... }
 ```
 
@@ -434,7 +434,7 @@ XCTAssertEqual(Parser(name: "Sf").parseType(), .float)
 XCTAssertEqual(Parser(name: "Sf_SfSft").parseType(), .list([.float, .float, .float]))
 ```
 
-### Step6 - 関数のシグネチャを読み取る
+### Step7 - 関数のシグネチャを読み取る
 
 型のparseができるようになったところで関数のシグネチャを読み取ってみましょう。
 
