@@ -334,24 +334,45 @@ extension Parser {
 }
 ```
 
-### Step5 - 関数のシグネチャを読み取る
+### Step5 - 先読み/スキップ機能を作る
+
+さてここから先は少し複雑になってきます。準備のためにParserにいくつかの機能を足してあげましょう。
+indexを進めることなしに現在の先頭の文字を先読み(Lookahead)して処理を分岐させるために、以下のような関数を作ってあげましょう。
+
+```swift
+extension Parser {
+  // indexはそのままに一文字先読みする
+  func lookahead() -> String { ... }
+}
+```
+
+また、単純に与えられた文字数分スキップする`skip`メソッドも作ってあげましょう。
+
+```swift
+extension Parser {
+  // length分だけindexを進める
+  func skip(length: Int) { ... }
+}
+```
+
+### Step6 - 型を読み取る
 
 ラベルの後には関数のシグネチャ(≒型) が続きます。
+シグネチャを読む前にまずは型のParserを作りましょう。
 
+今回は扱う型が限られているので、型を表すこんな感じのenumを作ってあげると良さそうです。
+
+```swift
+enum Type {
+    case bool
+    case int
+    case string
+    case float
+    indirect case list([Type])
+}
 ```
-function-signature ::= params-type params-type throws?
-```
 
-具体的にはこの部分です。
-
-```
-SbSi_t
-```
-
-まず返り値の型があり、そのあとに引数の型が続きます。
-今回の`isEven`であれば `Bool`, `(Int)` という並びで書かれているはずです。
-
-Swiftの基本的な型は`standard-substitutions`という省略形で表現されるため、Bool, Intはそれぞれ`Sb`, `Si`と表されています。
+Swiftの基本的な型は`standard-substitutions`という省略形で表現されBool, Intはそれぞれ`Sb`, `Si`と表されています。
 
 ```
 standard-substitutions ::= 'S' KNOWN-TYPE-KIND
@@ -359,7 +380,7 @@ KNOWN-TYPE-KIND ::= 'b' // Swift.Bool
 KNOWN-TYPE-KIND ::= 'i' // Swift.Int
 ```
 
-引数の部分は`Int`ではなく`(Int)` という要素数1のlistで表現されているため`Si_t`のようになっています。
+引数部分は型のリストで表す必要があるため、`.list`のケースを用意してあげています。
 
 ```
 type ::= type-list 't' 
@@ -374,12 +395,40 @@ empty-list ::= 'y'
 func isEven(number: Int, hoge: String, fuga: Float) -> Bool { ... }
 ```
 
-シグネチャはこのようになります。
+引数部分の型はこのように表されます。
 
 ```
-SbSi_SSSft
+Si_SSSft
 ```
 
-まず返り値の型の`Bool`を表す`Sb`、そのあとに一つ目の引数の`Int`を表す`Si`とここからリストを始めることを表す`_`, 引数を表す`SS`, `Sf`と続き、最後にリスト終了を表す`t`が書かれます。
+一つ目の引数の`Int`を表す`Si`とここからリストを始めることを表す`_`, 引数を表す`SS`, `Sf`と続き、最後にリスト終了を表す`t`が書かれます。
+
+
+
+### Step6 - 関数のシグネチャを読み取る
+
+型のparseができるようになったところで関数のシグネチャを読み取ってみましょう。
+
+```
+function-signature ::= params-type params-type throws?
+```
+
+具体的にはこの部分です。
+
+```
+SbSi_t
+```
+
+まず返り値の型があり、そのあとに引数の型が続きます。
+今回の`isEven`であれば `Bool`, `(Int)` という並びで書かれているはずです。
+
+引数の部分は`Int`ではなく`(Int)` という要素数1のlistで表現されているため`Si_t`のようになっています。
+
+```
+type ::= type-list 't' 
+type-list ::= list-type '_' list-type*
+type-list ::= empty-list
+empty-list ::= 'y'
+```
 
 

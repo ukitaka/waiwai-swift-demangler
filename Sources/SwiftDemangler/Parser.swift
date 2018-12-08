@@ -83,3 +83,71 @@ extension Parser {
         return list
     }
 }
+
+// MARK: - Step5
+
+extension Parser {
+    func lookahead() -> String {
+        return self.remains.first.map(String.init) ?? ""
+    }
+    
+    func skip(length: Int) {
+        self.index = self.name.index(self.index, offsetBy: length)
+    }
+}
+
+// MARK: - Step6
+
+enum Type {
+    case bool
+    case int
+    case string
+    case float
+    indirect case list([Type])
+}
+
+extension Type: Equatable {
+    static func == (lhs: Type, rhs: Type) -> Bool {
+        switch (lhs, rhs) {
+        case (.bool, .bool): return true
+        case (.int, .int): return true
+        case (.string, .string): return true
+        case (.float, .float): return true
+        case let (.list(list1), .list(list2)):
+            return list1 == list2
+        default:
+            return false
+        }
+        
+    }
+}
+
+extension Parser {
+    func parseKnownType() -> Type {
+        guard lookahead() == "S" else {
+            fatalError()
+        }
+        switch parseIdentifier(length: 2) {
+        case "Sb": return .bool
+        case "Si": return .int
+        case "Sf": return .float
+        case "SS": return .string
+        default:
+            fatalError()
+        }
+    }
+
+    func parseType() -> Type {
+        let firstType = parseKnownType()
+        if lookahead() == "_" {
+            skip(length: 1)
+            var list: [Type] = [firstType]
+            while lookahead() != "t" {
+                list.append(parseKnownType())
+            }
+            return .list(list)
+        } else {
+            return firstType
+        }
+    }
+}
