@@ -591,6 +591,7 @@ $S13ExampleAnimal3DogV4barkSSyF ---> ExampleAnimal.Dog.bark() -> Swift.String
 ## 課題4
 
 ここからはMangleされた文字列をできるだけ短くする手法について紹介していきます。
+コードは[Examples/ExampleSquare.swift](Examples/ExampleSquare.swift)にあります。
 まずは繰り返しの省略です。
 
 ```swift
@@ -620,10 +621,15 @@ standard-substitutions ::= 'S' NATURAL KNOWN-TYPE-KIND
 
 + `square(number:)`の例でDemanglerが動くように実装してみましょう
 
+```
+$S13ExampleSquare6square1nS2i_tF ---> ExampleSquare.square(n: Swift.Int) -> Swift.Int
+```
+
 
 ## 課題5
 
 ここまで触れてこなかった `Substitution` について扱います。
+コードは[Examples/ExampleSub.swift](Examples/ExampleSub.swift)にあります。
 
 ```swift
 struct Water { }
@@ -650,3 +656,7 @@ see: https://speakerdeck.com/omochi/swiftcfalsemanglingtosubstitution?slide=15
 
 
 + Substitutionを実装してみましょう。
+
+```
+$S10ExampleSub5StoneV8hogehoge3aaa3bbb3cccAA5WaterVAC_AiCtF ---> ExampleSub.Stone.hogehoge(aaa: ExampleSub.Stone, bbb: ExampleSub.Water, ccc: ExampleSub.Stone) -> ExampleSub.Water
+```
