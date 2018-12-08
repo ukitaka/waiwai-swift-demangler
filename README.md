@@ -635,7 +635,18 @@ struct Stone {
 }
 ```
 
+これをMangleすると、繰り返し出てくる`Stone` や `Water` が置換されて `AA`や`AC`などになっていることが確認できます。
+
 ```
 $S10ExampleSub5StoneV8hogehoge3aaa3bbb3cccAA5WaterVAC_AiCtF
 ```
 
+Manglingの過程で出現した文字列は配列に保存されます。
+最初の`A` で置換を開始する合図で、次の大文字アルファベットまで置換が繰り返されます。
+
+詳細はおもちさんのスライドのこのあたりをみてみてください。
+
+see: https://speakerdeck.com/omochi/swiftcfalsemanglingtosubstitution?slide=15
+
+
++ Substitutionを実装してみましょう。
