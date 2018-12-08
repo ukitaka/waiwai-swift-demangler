@@ -1,3 +1,3 @@
-func isEven(number: Int) -> Bool {
+func isEven(number: Int) throws -> Bool {
     return number % 2 == 0
 }

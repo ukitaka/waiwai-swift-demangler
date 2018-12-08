@@ -99,7 +99,7 @@ empty-list ::= 'y' // Void
 list-type ::= type
 ```
 
-## Example1
+## 課題1
 
 まずはもっとも基本的な関数のDemangleに挑戦してみましょう。
 この関数のMangleされた名前のDemangleをします。
@@ -525,4 +525,26 @@ $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.I
 ```
 
 こんな感じで見せられるとかっこよさそうです。特に解説はしないのでチャレンジしてみてください。
+
+
+## 課題2
+
+課題1が終わったらいかにチャレンジしてみましょう！
+
++ 引数が複数ある場合でもちゃんとうごくか確認する
+
+  ```swift
+  func isEven(number: Int, hoge: String, fuga: Float) -> Bool { ... }
+  ```
+
++ `throws` な関数を扱ってみる
+  + SILの出力やBNFをみながらどこを変えれば調べながらやってみる
+
+  ```swift
+  func isEven(number: Int) throws -> Bool { ... }
+  ```
+
++ 引数や返り値の型が `Void`な関数を扱ってみる
+  + SILの出力やBNFをみながらどこを変えれば調べながらやってみる
+
 
