@@ -10,7 +10,11 @@ class Parser {
     }
     
     var remains: String { return String(name[index...]) }
-    
+}
+
+// MARK: - Step2
+
+extension Parser {
     func parseInt() -> Int? {
         let remains = self.remains
         if let int = Int(remains) {
@@ -27,13 +31,17 @@ class Parser {
         self.index = self.name.index(self.index, offsetBy: (int / 10) + 1)
         return int
     }
-    
+}
+
+extension Parser {
     func parseIdentifier(length: Int) -> String {
         let remains = self.remains
         self.index = self.name.index(self.index, offsetBy: length)
         return String(remains.prefix(length))
     }
-    
+}
+
+extension Parser {
     func parseIdentifier() -> String? {
         guard let lengh = self.parseInt() else {
             return nil
