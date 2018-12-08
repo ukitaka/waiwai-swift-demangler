@@ -1,3 +1,3 @@
-func square(n: Int) -> Int {
-    return n * n
+func square(number: Int) -> Int {
+    return number * number
 }
