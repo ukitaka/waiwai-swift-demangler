@@ -261,7 +261,7 @@ XCTAssertEqual(parser.parseIdentifier(length: 4), "DEFG")
 
 ```swift
 extension Parser {
-  func parseIdentifier() -> String { ... }
+  func parseIdentifier() -> String? { ... }
 }
 ```
 
@@ -272,3 +272,88 @@ XCTAssertEqual(parser.remains, "4DEFG")
 XCTAssertEqual(parser.parseIdentifier(), "DEFG")
 ```
 
+### Step3 - モジュール名を読みとる
+
+ここまでできればモジュール名を読むのは簡単です。
+
+Prefixを飛ばすために`parserPrefix`を作っておきます。
+
+
+```swift
+extension Parser {
+    func parsePrefix() -> String { ... }
+}
+```
+
+今回扱う範囲ではPrefixの後にモジュール名がくるので、先ほど作った`parserIdentifier()`を使って読み取ってあげればおしまいです。
+
+```swift
+extension Parser {
+    func parseModule() -> String { ... }
+}
+```
+
+今回の例であれば`ExampleNumber` が読み取れれば成功です。
+
+```swift
+let parser = Parser(name: "$S13ExampleNumber6isEven6numberSbSi_tF")
+let _ = parser.parsePrefix()
+XCTAssertEqual(parser.parseModule(), "ExampleNumber")
+```
+
+### Step4 - 関数名と引数ラベルを読みとる
+
+モジュール名のあとには関数を表す`entity-spec`が続きます。
+
+```
+entity-spec ::= decl-name label-list function-signature  'F'
+```
+
+まずは 関数名`isEven`にあたる `decl-name`を読み取ってみましょう。
+モジュール名と同様に先ほど作った`parserIdentifier()` がそのまま使えます。
+
+```swift
+extension Parser {
+  func parseDeclName() -> String { ... }
+}
+```
+
+そのあとには引数のラベル名が続きます。今回は`number`というラベルが1つ付いているので`6number` と続いているのがわかるかと思います。
+
+```
+$S13ExampleNumber6isEven6numberSbSi_tF
+```
+
+
+これも同様に`parserIdentifier()` を使うだけですが、引数ラベルは複数ある可能性があるのでIdentifierを読み取れるだけ全部読み取る必要があります。
+
+```swift
+extension Parser {
+  func parseLabelList() -> [String] { ... }
+}
+```
+
+### Step5 - 関数のシグネチャを読み取る
+
+ラベルの後には関数のシグネチャ(≒型) が続きます。
+
+```
+function-signature ::= params-type params-type throws?
+```
+
+具体的にはこの部分です。
+
+```
+SbSi_t
+```
+
+まず返り値の型があり、そのあとに引数の型が続きます。
+今回の`isEven`であれば `Bool`, `(Int)` という並びで書かれているはずです。
+
+Swiftの基本的な型は`standard-substitutions`という省略形で表現されるため、Bool, Intはそれぞれ`Sb`, `Si`と表されています。
+
+```
+standard-substitutions ::= 'S' KNOWN-TYPE-KIND
+KNOWN-TYPE-KIND ::= 'b' // Swift.Bool
+KNOWN-TYPE-KIND ::= 'i' // Swift.In<Paste>
+```
