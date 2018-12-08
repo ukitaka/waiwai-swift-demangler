@@ -476,3 +476,53 @@ XCTAssertEqual(Parser(name: "SbSi_t").parseFunctionSignature(), FunctionSignatur
 ```
 
 
+### Step8 - Parserを完成させる
+
+あとは全体を読んであげましょう。
+
+```swift
+struct FunctionEntity: Equatable {
+    let module: String
+    let declName: String
+    let labelList: [String]
+    let functionSignature: FunctionSignature
+}
+```
+
+```swift
+extension Parser {
+    func parseFunctionEntity() -> FunctionEntity { ... }
+}
+```
+
+これでほぼ完成です！！
+
+```swift
+let sig = FunctionSignature(returnType: .bool, argsType: .list([.int]))
+XCTAssertEqual(Parser(name: "13ExampleNumber6isEven6numberSbSi_tF").parseFunctionEntity(),
+               FunctionEntity(module: "ExampleNumber", declName: "isEven", labelList: ["number"], functionSignature: sig)
+```
+
+
+あとはPrefixだけ飛ばしてあげればOKです。
+
+```swift
+extension Parser {
+    func parse() -> FunctionEntity {
+        let _ = self.parsePrefix()
+        return self.parseFunctionEntity()
+    }
+}
+```
+
+### Step9 - 文字列として表示する
+
+
+ここは必須ではないですが、`swift demangle`の出力と同じように
+
+```
+$S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.Int) -> Swift.Bool
+```
+
+こんな感じで見せられるとかっこよさそうです。特に解説はしないのでチャレンジしてみてください。
+

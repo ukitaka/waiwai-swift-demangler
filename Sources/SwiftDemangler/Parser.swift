@@ -185,4 +185,9 @@ extension Parser {
         let functionSignature = self.parseFunctionSignature()
         return FunctionEntity(module: module, declName: declName, labelList: labelList, functionSignature: functionSignature)
     }
+    
+    func parse() -> FunctionEntity {
+        let _ = self.parsePrefix()
+        return self.parseFunctionEntity()
+    }
 }
