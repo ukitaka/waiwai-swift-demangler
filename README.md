@@ -35,6 +35,7 @@ mangled-name ::= '$S'
 global ::= entity
 entity ::= context entity-spec
 context ::= module
+module ::= identifier
 entity-spec ::= decl-name label-list function-signature  'F'
 function-signature ::= params-type params-type throws? // return and params
 throws ::= 'K' 
