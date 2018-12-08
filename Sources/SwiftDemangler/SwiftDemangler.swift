@@ -13,14 +13,29 @@ func isFunctionEntitySpec(name: String) -> Bool {
     return name.hasSuffix("F")
 }
 
-func parseInt(name: String) -> Int? {
-    if let int = Int(name) {
-        return int
+// MARK: - Scanner
+
+class Scanner {
+    private let name: String
+    private var index: String.Index
+
+    init(name: String) {
+        self.name = name
+        self.index = name.startIndex
     }
-    let decimalDigits = "0123456789"
-    guard let index = name.firstIndex(where: { c in !decimalDigits.contains(c) }) else {
-        return nil
+    
+    var remains: String { return String(name[index...]) }
+    
+    func nextInt() -> Int? {
+        let remains = self.remains
+        if let int = Int(remains) {
+            return int
+        }
+        let decimalDigits = "0123456789"
+        guard let index = remains.firstIndex(where: { c in !decimalDigits.contains(c) }) else {
+            return nil
+        }
+        let int = remains.prefix(upTo: index)
+        return Int(int)
     }
-    let int = name.prefix(upTo: index)
-    return Int(int)
 }
