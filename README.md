@@ -175,7 +175,7 @@ isSwiftSymbol(name: name) // true
 isFunctionEntitySpec(name: name) // true
 ```
 
-## Step2 - 簡易Parserを作って数字とその文字分の文字列読み取る機能を作る
+### Step2 - 簡易Parserを作って数字とその文字分の文字列読み取る機能を作る
 
 Mangleされた名前の中には「ここから何文字分がIdentifierか」を表す数字が含まれています。
 たとえば`13ExampleNumber` であれば`ExampleNumber` の13文字分が1つのIdentifierであることを表しています。
