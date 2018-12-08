@@ -625,4 +625,17 @@ standard-substitutions ::= 'S' NATURAL KNOWN-TYPE-KIND
 
 ここまで触れてこなかった `Substitution` について扱います。
 
-TODO
+```swift
+struct Water { }
+
+struct Stone { 
+    func hogehoge(aaa: Stone, bbb: Water, ccc: Stone) -> Water {
+        fatalError()
+    }
+}
+```
+
+```
+$S10ExampleSub5StoneV8hogehoge3aaa3bbb3cccAA5WaterVAC_AiCtF
+```
+
