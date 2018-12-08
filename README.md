@@ -529,7 +529,7 @@ $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.I
 
 ## 課題2
 
-課題1が終わったらいかにチャレンジしてみましょう！
+課題1が終わったら応用編にチャレンジしてみましょう！
 
 + 引数が複数ある場合でもちゃんとうごくか確認する
 
@@ -547,8 +547,48 @@ $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.I
 + 引数や返り値の型が `Void`な関数を扱ってみる
   + SILの出力やBNFをみながらどこを変えれば調べながらやってみる
 
-
 ## 課題3
+
+ユーザ定義のstructと、そのメソッドについて扱えるようにしてみたいと思います。
+コードは[Examples/ExampleAnimal.swift](Examples/ExampleAnimal.swift)にあります。
+
+```swift
+struct Dog {
+  func bark() -> String { 
+    return "わんわん"
+  }
+}
+```
+
+このメソッドをMangleしてみると
+
+```
+$S13ExampleAnimal3DogV4barkSSyF
+```
+
+となっていて`3DogV`というstructを表す部分が追加されています。
+
+```
+context ::= entity
+entity ::= nominal-type
+any-generic-type ::= context decl-name 'V' // nominal struct type
+```
+
+
+enum / classにはそれぞれ `O`, `C` がつきます。
+
+```
+any-generic-type ::= context decl-name 'O' // nominal enum type
+any-generic-type ::= context decl-name 'C' // nominal class type
+```
+
++ `Dog.bark()`の例でDemanglerが動くように実装してみましょう
+
+```
+$S13ExampleAnimal3DogV4barkSSyF ---> ExampleAnimal.Dog.bark() -> Swift.String
+```
+
+## 課題4
 
 ここからはMangleされた文字列をできるだけ短くする手法について紹介していきます。
 まずは繰り返しの省略です。
@@ -581,10 +621,7 @@ standard-substitutions ::= 'S' NATURAL KNOWN-TYPE-KIND
 + `square(number:)`の例でDemanglerが動くように実装してみましょう
 
 
-
-
-
-## 課題4
+## 課題5
 
 ここまで触れてこなかった `Substitution` について扱います。
 
