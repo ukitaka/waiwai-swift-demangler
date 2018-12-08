@@ -550,6 +550,42 @@ $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.I
 
 ## 課題3
 
+ここからはMangleされた文字列をできるだけ短くする手法について紹介していきます。
+まずは繰り返しの省略です。
+
+```swift
+func square(number: Int) -> Int {
+    return number * number
+}
+```
+
+こんな関数があった場合、課題1までの知識で素直にMangleしてみると
+
+```
+$S13ExampleSquare6square6numberSiSi_tF
+```
+
+となりそうですが、実際はシグネチャの部分が少し異なります。
+
+```
+$S13ExampleSquare6square6numberS2i_tF
+```
+
+これは`SiSi`という繰り返しが`S2i` と省略されたためです。
+
+
+```
+standard-substitutions ::= 'S' NATURAL KNOWN-TYPE-KIND
+```
+
++ `square(number:)`の例でDemanglerが動くように実装してみましょう
+
+
+
+
+
+## 課題4
+
 ここまで触れてこなかった `Substitution` について扱います。
 
 TODO
