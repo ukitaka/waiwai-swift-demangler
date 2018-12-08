@@ -48,4 +48,11 @@ class Scanner {
         self.index = self.name.index(self.index, offsetBy: length)
         return String(remains.prefix(length))
     }
+
+    func nextIdentifier() -> String? {
+        guard let lengh = self.nextInt() else {
+            return nil
+        }
+        return nextIdentifier(length: lengh)
+    }
 }

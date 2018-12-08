@@ -28,7 +28,7 @@ class ScannerTest: XCTestCase {
         XCTAssertEqual(scanner.nextInt(), nil)
     }
 
-    func testNextIdentifier() {
+    func testNextIdentifierWithLength() {
         let scanner = Scanner(name: "3ABC4DEFG")
         XCTAssertEqual(scanner.nextInt(), 3)
         XCTAssertEqual(scanner.remains, "ABC4DEFG")
@@ -37,5 +37,12 @@ class ScannerTest: XCTestCase {
         XCTAssertEqual(scanner.nextInt(), 4)
         XCTAssertEqual(scanner.remains, "DEFG")
         XCTAssertEqual(scanner.nextIdentifier(length: 4), "DEFG")
+    }
+    
+    func testNextIdentifier() {
+        let scanner = Scanner(name: "3ABC4DEFG")
+        XCTAssertEqual(scanner.nextIdentifier(), "ABC")
+        XCTAssertEqual(scanner.remains, "4DEFG")
+        XCTAssertEqual(scanner.nextIdentifier(), "DEFG")
     }
 }
