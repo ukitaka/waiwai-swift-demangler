@@ -531,14 +531,14 @@ $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.I
   ```
 
 + `throws` な関数を扱ってみる
-  + SILの出力やBNFをみながらどこを変えれば調べながらやってみる
+  + SILの出力やBNFをみながらどこを変えればよいか調べながらやってみる
 
   ```swift
   func isEven(number: Int) throws -> Bool { ... }
   ```
 
 + 引数や返り値の型が `Void`な関数を扱ってみる
-  + SILの出力やBNFをみながらどこを変えれば調べながらやってみる
+  + SILの出力やBNFをみながらどこを変えればよいか調べながらやってみる
 
 ## 課題3
 
