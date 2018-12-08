@@ -95,5 +95,6 @@ type ::= type-list 't'
 type-list ::= list-type '_' list-type*
 type-list ::= empty-list
 empty-list ::= 'y' // Void
+list-type ::= type
 ```
 
