@@ -98,3 +98,63 @@ empty-list ::= 'y' // Void
 list-type ::= type
 ```
 
+## Example1
+
+まずはもっとも基本的な関数のDemangleに挑戦してみましょう。
+この関数のMangleされた名前のDemangleをします。
+[Examples/ExampleNumber.swift](Examples/ExampleNumber.swift) にコードがあります。
+
+```swift
+func isEven(number: Int) -> Bool {
+    return number % 2 == 0
+}
+```
+
+SILを出力してどのようにManglingされているか確認してみます。
+
+```
+$ swiftc -emit-sil Examples/ExampleNumber.swift
+```
+
+該当箇所を見つけてDemanglingしてみます。
+
+```
+$ swift demangle '$S13ExampleNumber6isEven6numberSbSi_tF'
+```
+
+```
+$S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.Int) -> Swift.Bool
+```
+
+`--expand` オプションを使うとどのような構成になっているかわかりやすいです。
+
+```
+$ swift demangle --expand '$S13ExampleNumber6isEven6numberSbSi_tF'
+```
+
+```
+Demangling for $S13ExampleNumber6isEven6numberSbSi_tF
+kind=Global
+  kind=Function
+    kind=Module, text="ExampleNumber"
+    kind=Identifier, text="isEven"
+    kind=LabelList
+      kind=Identifier, text="number"
+    kind=Type
+      kind=FunctionType
+        kind=ArgumentTuple, index=1
+          kind=Type
+            kind=Tuple
+              kind=TupleElement
+                kind=Type
+                  kind=Structure
+                    kind=Module, text="Swift"
+                    kind=Identifier, text="Int"
+        kind=ReturnType
+          kind=Type
+            kind=Structure
+              kind=Module, text="Swift"
+              kind=Identifier, text="Bool"
+$S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.Int) -> Swift.Bool
+```
+
