@@ -548,3 +548,8 @@ $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.I
   + SILの出力やBNFをみながらどこを変えれば調べながらやってみる
 
 
+## 課題3
+
+ここまで触れてこなかった `Substitution` について扱います。
+
+TODO
