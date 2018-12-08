@@ -167,3 +167,22 @@ extension Parser {
         return FunctionSignature(returnType: returnType, argsType: argsType)
     }
 }
+
+// MARK: - Step8
+
+struct FunctionEntity: Equatable {
+    let module: String
+    let declName: String
+    let labelList: [String]
+    let functionSignature: FunctionSignature
+}
+
+extension Parser {
+    func parseFunctionEntity() -> FunctionEntity {
+        let module = self.parseModule()
+        let declName = self.parseDeclName()
+        let labelList = self.parseLabelList()
+        let functionSignature = self.parseFunctionSignature()
+        return FunctionEntity(module: module, declName: declName, labelList: labelList, functionSignature: functionSignature)
+    }
+}
