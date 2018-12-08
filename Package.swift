@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "waiwai-swift-demangler",
+    name: "SwiftDemangler",
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
-            name: "waiwai-swift-demangler",
-            targets: ["waiwai-swift-demangler"]),
+            name: "SwiftDemangler",
+            targets: ["SwiftDemangler"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -19,10 +19,10 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
-            name: "waiwai-swift-demangler",
+            name: "SwiftDemangler",
             dependencies: []),
         .testTarget(
-            name: "waiwai-swift-demanglerTests",
-            dependencies: ["waiwai-swift-demangler"]),
+            name: "SwiftDemanglerTests",
+            dependencies: ["SwiftDemangler"]),
     ]
 )

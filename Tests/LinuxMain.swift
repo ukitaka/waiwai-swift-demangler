@@ -1,7 +1,7 @@
 import XCTest
 
-import waiwai_swift_demanglerTests
+import SwiftDemanglerTests
 
 var tests = [XCTestCaseEntry]()
-tests += waiwai_swift_demanglerTests.allTests()
+tests += SwiftDemanglerTests.allTests()
 XCTMain(tests)

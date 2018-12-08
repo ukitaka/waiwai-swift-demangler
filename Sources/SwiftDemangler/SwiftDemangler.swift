@@ -1,3 +1,3 @@
-struct waiwai_swift_demangler {
+struct SwiftDemangler {
     var text = "Hello, World!"
 }

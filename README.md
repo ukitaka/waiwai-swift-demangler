@@ -1,3 +1,3 @@
-# waiwai-swift-demangler
+# SwiftDemangler
 
 A description of this package.
