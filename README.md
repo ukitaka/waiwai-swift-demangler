@@ -164,7 +164,7 @@ $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.I
 
 ### Step1 - Prefix / Entityの種類を判別する
 
-まずウォーミングアップとして最初にPrefixとSuffixを読んでみましょう。
+まずウォーミングアップとしてPrefixとSuffixを読んでみましょう。
 
 + 与えられたStringのPrefixが`$S`であることを確認してBoolを返す `isSwiftSymbol` 関数
 + 与えられたStringのSuffixが`F`であることを確認してBoolを返す `isFunctionEntitySpec` 関数
