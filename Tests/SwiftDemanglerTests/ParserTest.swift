@@ -54,10 +54,10 @@ class ParserTest: XCTestCase {
     }
     
     func testParseType() {
-//        XCTAssertEqual(Parser(name: "Si").parseType(), .int)
-//        XCTAssertEqual(Parser(name: "Sb").parseType(), .bool)
-//        XCTAssertEqual(Parser(name: "SS").parseType(), .string)
-//        XCTAssertEqual(Parser(name: "Sf").parseType(), .float)
+        XCTAssertEqual(Parser(name: "Si").parseType(), .int)
+        XCTAssertEqual(Parser(name: "Sb").parseType(), .bool)
+        XCTAssertEqual(Parser(name: "SS").parseType(), .string)
+        XCTAssertEqual(Parser(name: "Sf").parseType(), .float)
         XCTAssertEqual(Parser(name: "Sf_SfSft").parseType(), .list([.float, .float, .float]))
     }
 }

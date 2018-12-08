@@ -403,7 +403,36 @@ Si_SSSft
 
 一つ目の引数の`Int`を表す`Si`とここからリストを始めることを表す`_`, 引数を表す`SS`, `Sf`と続き、最後にリスト終了を表す`t`が書かれます。
 
+まずlist以外のknownな型をparseするメソッドを生やしてあげると処理がシンプルになりそうです。
 
+```swift
+extension Parser {
+  func parseKnownType() -> Type { ... }
+}
+```
+
+```swift
+XCTAssertEqual(Parser(name: "Si").parseKnownType(), .int)
+XCTAssertEqual(Parser(name: "Sb").parseKnownType(), .bool)
+XCTAssertEqual(Parser(name: "SS").parseKnownType(), .string)
+XCTAssertEqual(Parser(name: "Sf").parseKnownType(), .float)
+```
+
+これと、先ほど作ったlookaheadやskipをうまく使いながらlistも対応した完全版を作ってあげます。
+
+```swift
+extension Parser {
+  func parseType() -> Type { ... }
+}
+```
+
+```swift
+XCTAssertEqual(Parser(name: "Si").parseType(), .int)
+XCTAssertEqual(Parser(name: "Sb").parseType(), .bool)
+XCTAssertEqual(Parser(name: "SS").parseType(), .string)
+XCTAssertEqual(Parser(name: "Sf").parseType(), .float)
+XCTAssertEqual(Parser(name: "Sf_SfSft").parseType(), .list([.float, .float, .float]))
+```
 
 ### Step6 - 関数のシグネチャを読み取る
 
@@ -423,12 +452,5 @@ SbSi_t
 今回の`isEven`であれば `Bool`, `(Int)` という並びで書かれているはずです。
 
 引数の部分は`Int`ではなく`(Int)` という要素数1のlistで表現されているため`Si_t`のようになっています。
-
-```
-type ::= type-list 't' 
-type-list ::= list-type '_' list-type*
-type-list ::= empty-list
-empty-list ::= 'y'
-```
 
 
