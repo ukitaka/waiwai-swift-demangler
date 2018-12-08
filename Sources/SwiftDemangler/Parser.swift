@@ -50,6 +50,8 @@ extension Parser {
     }
 }
 
+// MARK: - Step3
+
 extension Parser {
     func parsePrefix() -> String {
         guard name.hasPrefix("$S") else {
@@ -64,10 +66,20 @@ extension Parser {
     }
 }
 
-// MARK: -
+// MARK: - Step4
 
 extension Parser {
     func parseDeclName() -> String {
         return parseIdentifier()!
+    }
+}
+
+extension Parser {
+    func parseLabelList() -> [String] {
+        var list: [String] = []
+        while let label = self.parseIdentifier() {
+            list.append(label)
+        }
+        return list
     }
 }
