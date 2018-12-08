@@ -158,7 +158,9 @@ kind=Global
 $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.Int) -> Swift.Bool
 ```
 
-進め方は自由ですが、もしわからなければ以下の手順でやってみるとよいです。
+**上記のBNFをみながらParserがかける人はここから先は自由に進めてもらって大丈夫です。**
+
+もしわからなければ以下の手順でやってみるとよいです。
 
 ### Step1 - Prefix / Entityの種類を判別する
 
@@ -195,10 +197,78 @@ class Parser {
 ```
 
 まずは、先頭から数字を読み取るメソッドを作ってみましょう。
+正確には`014`などの0から始まるケースを弾く必要がありますが、今回は特に気にしなくても大丈夫です。
+(もちろんやってもOKです)
 
 ```swift
 extension Parser {
   func parseInt() -> Int? { ... }
 }
+```
+
+```swift
+ var parser = Parser(name: "0")
+
+ // 0
+ XCTAssertEqual(parser.parseInt(), 0)
+ XCTAssertEqual(parser.remains, "")
+
+ // 1
+ parser = Parser(name: "1")
+ XCTAssertEqual(parser.parseInt(), 1)
+ XCTAssertEqual(parser.remains, "")
+
+ // 12
+ parser = Parser(name: "12")
+ XCTAssertEqual(parser.parseInt(), 12)
+ XCTAssertEqual(parser.remains, "")
+
+ // 12
+ parser = Parser(name: "12A")
+ XCTAssertEqual(parser.parseInt(), 12)
+ XCTAssertEqual(parser.remains, "A")
+
+ // 1
+ parser = Parser(name: "1B2A")
+ XCTAssertEqual(parser.parseInt(), 1)
+ XCTAssertEqual(parser.remains, "B2A")
+ XCTAssertEqual(parser.parseInt(), nil)
+```
+
+数字が読み取れたら、今度はその文字数分identifierを読み取ってみましょう。
+
+```swift
+extension Parser {
+  func parseIdentifier(lenght: Int) -> String { ... }
+}
+```
+
+```swift
+let parser = Parser(name: "3ABC4DEFG")
+
+XCTAssertEqual(parser.parseInt(), 3)
+XCTAssertEqual(parser.remains, "ABC4DEFG")
+XCTAssertEqual(parser.parseIdentifier(length: 3), "ABC")
+XCTAssertEqual(parser.remains, "4DEFG")
+
+XCTAssertEqual(parser.parseInt(), 4)
+XCTAssertEqual(parser.remains, "DEFG")
+XCTAssertEqual(parser.parseIdentifier(length: 4), "DEFG")
+```
+
+あとは数字を読んでその文字数分Identifierを読むメソッドがあると便利そうです。
+
+
+```swift
+extension Parser {
+  func parseIdentifier() -> String { ... }
+}
+```
+
+```swift
+let parser = Parser(name: "3ABC4DEFG")
+XCTAssertEqual(parser.parseIdentifier(), "ABC")
+XCTAssertEqual(parser.remains, "4DEFG")
+XCTAssertEqual(parser.parseIdentifier(), "DEFG")
 ```
 
