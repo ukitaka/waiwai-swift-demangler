@@ -81,7 +81,7 @@ NATURAL_ZERO ::= [0-9]+
 
 ### Type
 
-Void, Int, Bool, String, Tuple + いくつかのユーザ定義型のみ扱います。
+Void, Int, Bool, String, Float, 型のリストと、 時間があればいくつかのユーザ定義型のみ扱います。
 
 ```
 type ::= any-generic-type
@@ -90,6 +90,7 @@ standard-substitutions ::= 'S' KNOWN-TYPE-KIND
 KNOWN-TYPE-KIND ::= 'i' // Int
 KNOWN-TYPE-KIND ::= 'b' // Bool
 KNOWN-TYPE-KIND ::= 'S' // String
+KNOWN-TYPE-KIND ::= 'f' // Float
 
 type ::= type-list 't' 
 type-list ::= list-type '_' list-type*
@@ -359,7 +360,6 @@ KNOWN-TYPE-KIND ::= 'i' // Swift.Int
 ```
 
 引数の部分は`Int`ではなく`(Int)` という要素数1のlistで表現されているため`Si_t`のようになっています。
-`t`がリストの終わりを表しています。
 
 ```
 type ::= type-list 't' 
@@ -367,3 +367,19 @@ type-list ::= list-type '_' list-type*
 type-list ::= empty-list
 empty-list ::= 'y'
 ```
+
+一つ目の要素のあとに`_` がつき、 `t`がリストの終わりを表しています。たとえばもし`isEven`がこのような定義だったとすると
+
+```
+func isEven(number: Int, hoge: String, fuga: Float) -> Bool { ... }
+```
+
+シグネチャはこのようになります。
+
+```
+SbSi_SSSft
+```
+
+まず返り値の型の`Bool`を表す`Sb`、そのあとに一つ目の引数の`Int`を表す`Si`とここからリストを始めることを表す`_`, 引数を表す`SS`, `Sf`と続き、最後にリスト終了を表す`t`が書かれます。
+
+
