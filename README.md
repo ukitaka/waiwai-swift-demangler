@@ -94,6 +94,11 @@ list-type ::= type
 
 ## 課題1
 
+```
+$S13ExampleNumber6isEven6numberSbSi_tF --—> ExampleNumber.isEven(number: Swift.Int) -> Swift.Bool
+```
+
+
 まずはもっとも基本的な関数のDemangleに挑戦してみましょう。
 この関数のMangleされた名前のDemangleをします。
 [Examples/ExampleNumber.swift](Examples/ExampleNumber.swift) にコードがあります。
@@ -151,6 +156,8 @@ kind=Global
               kind=Identifier, text="Bool"
 $S13ExampleNumber6isEven6numberSbSi_tF ---> ExampleNumber.isEven(number: Swift.Int) -> Swift.Bool
 ```
+
+これと同じ動きをするようにDemanglerを実装してみましょう!
 
 **上記のBNFをみながらParserがかける人はここから先は自由に進めてもらって大丈夫です。**
 
