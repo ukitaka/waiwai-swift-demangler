@@ -1,3 +1,3 @@
-struct SwiftDemangler {
-    var text = "Hello, World!"
+public func demangle(name: String) -> String {
+    return name //TODO: implement
 }

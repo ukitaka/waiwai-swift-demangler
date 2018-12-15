@@ -2,15 +2,13 @@ import XCTest
 @testable import SwiftDemangler
 
 final class SwiftDemanglerTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(SwiftDemangler().text, "Hello, World!")
+    func testEx1() {
+        XCTAssertEqual(demangle(name: "$S13ExampleNumber6isEven6numberSbSi_tF"),
+                       "ExampleNumber.isEven(number: Swift.Int) -> Swift.Bool")
     }
 
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testEx1", testEx1),
     ]
 }
