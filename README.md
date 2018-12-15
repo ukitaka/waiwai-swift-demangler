@@ -660,3 +660,7 @@ see: https://speakerdeck.com/omochi/swiftcfalsemanglingtosubstitution?slide=15
 ```
 $S10ExampleSub5StoneV8hogehoge3aaa3bbb3cccAA5WaterVAC_AiCtF ---> ExampleSub.Stone.hogehoge(aaa: ExampleSub.Stone, bbb: ExampleSub.Water, ccc: ExampleSub.Stone) -> ExampleSub.Water
 ```
+
+## その後
+
+[docs/ABI/Mangling.rst](https://github.com/apple/swift/blob/master/docs/ABI/Mangling.rst)を見ながら君だけの最高のDemanglerを作ろう！
