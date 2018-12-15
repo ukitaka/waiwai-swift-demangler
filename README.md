@@ -337,12 +337,12 @@ extension Parser {
 ### Step5 - 先読み/スキップ機能を作る
 
 さてここから先は少し複雑になってきます。準備のためにParserにいくつかの機能を足してあげましょう。
-indexを進めることなしに現在の先頭の文字を先読み(Lookahead)して処理を分岐させるために、以下のような関数を作ってあげましょう。
+indexを進めることなしに現在の先頭の文字を先読みして処理を分岐させるために、以下のような関数を作ってあげましょう。
 
 ```swift
 extension Parser {
   // indexはそのままに一文字先読みする
-  func lookahead() -> String { ... }
+  func peek() -> String { ... }
 }
 ```
 
@@ -418,7 +418,7 @@ XCTAssertEqual(Parser(name: "SS").parseKnownType(), .string)
 XCTAssertEqual(Parser(name: "Sf").parseKnownType(), .float)
 ```
 
-これと、先ほど作ったlookaheadやskipをうまく使いながらlistも対応した完全版を作ってあげます。
+これと、先ほど作ったpeekやskipをうまく使いながらlistも対応した完全版を作ってあげます。
 
 ```swift
 extension Parser {
