@@ -25,7 +25,7 @@ class Parser {
     }
     
     func advance(to offset: Int) {
-        index = String.Index(encodedOffset: offset)
+        index = String.Index(encodedOffset: currentOffset + offset)
     }
 }
 
@@ -45,7 +45,7 @@ extension Parser {
             str.append(character)
         }
         
-        advance(to: currentOffset + str.count)
+        advance(to: str.count)
         return Int(str)
     }
 }
@@ -53,7 +53,7 @@ extension Parser {
 extension Parser {
     func parseIdentifier(length: Int) -> String {
         let identifier = remains.prefix(length)
-        advance(to: currentOffset + length)
+        advance(to: length)
         return String(identifier)
     }
     
@@ -88,3 +88,111 @@ extension Parser {
     }
 }
 
+extension Parser {
+    func parseDeclName() -> String? {
+        return parseIdentifier()
+    }
+}
+
+extension Parser {
+    func parseLabelList() -> [String] {
+        var list: [String] = []
+        while let label = parseIdentifier() {
+            list.append(label)
+        }
+        return list
+    }
+}
+
+extension Parser {
+    func peek() -> String {
+        return String(remains.prefix(1))
+    }
+}
+
+extension Parser {
+    func skip(length: Int) {
+        advance(to: length)
+    }
+}
+
+extension Parser {
+    func isType() -> Bool {
+        return "S" == peek()
+    }
+    
+    func parseType() -> Type {
+        var parsed: [Type] = []
+        parsed.append(parseKnownType())
+        
+        switch peek() {
+        case "_":
+            break
+        case _:
+            return parsed.first!
+        }
+        
+        skip(length: 1)
+        
+        while isType() {
+            parsed.append(parseKnownType())
+        }
+        
+        skip(length: 1)
+        return Type.list(parsed)
+    }
+    
+    func parseKnownType() -> Type {
+        if !isType() {
+            fatalError()
+        }
+        
+        skip(length: 1)
+        
+        defer {
+            skip(length: 1)
+        }
+        
+        switch peek() {
+        case "b":
+            return .bool
+        case "i":
+            return .int
+        case "S":
+            return .string
+        case "f":
+            return .float
+        case _:
+            fatalError()
+        }
+    }
+    
+}
+
+extension Parser {
+    func parseFunctionSignature() -> FunctionSignature {
+        return FunctionSignature(
+            returnType: parseType(),
+            argsType: parseType()
+        )
+    }
+}
+
+
+extension Parser {
+    func parseFunctionEntity() -> FunctionEntity {
+        return FunctionEntity(
+            module: parseModule(),
+            declName: parseDeclName()!,
+            labelList: parseLabelList(),
+            functionSignature: parseFunctionSignature()
+        )
+    }
+}
+
+extension Parser {
+    func parse() -> FunctionEntity {
+        let _ = self.parsePrefix()
+        return self.parseFunctionEntity()
+    }
+}
