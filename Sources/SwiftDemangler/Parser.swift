@@ -11,6 +11,10 @@ class Parser {
     private let whole: String
     private var index: String.Index
     
+    var currentOffset: Int {
+        return whole.count - remains.count
+    }
+    
     var remains: String {
         return String(whole[index...])
     }
@@ -39,5 +43,13 @@ extension Parser {
         }
         
         return Int(str)
+    }
+}
+
+extension Parser {
+    func parseIdentifier(length: Int) -> String {
+        let identifier = whole.prefix(length)
+        index = String.Index(encodedOffset: currentOffset + length)
+        return String(identifier)
     }
 }
