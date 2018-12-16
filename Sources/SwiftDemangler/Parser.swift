@@ -52,4 +52,13 @@ extension Parser {
         index = String.Index(encodedOffset: currentOffset + length)
         return String(identifier)
     }
+    
+}
+extension Parser {
+    func parseIdentifier() -> String? {
+        guard let length = parseInt() else {
+            return nil
+        }
+        return parseIdentifier(length: length)
+    }
 }

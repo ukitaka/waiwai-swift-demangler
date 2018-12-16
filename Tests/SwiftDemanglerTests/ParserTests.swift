@@ -59,6 +59,13 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(parser.remains, "DEFG")
         XCTAssertEqual(parser.parseIdentifier(length: 4), "DEFG")
     }
+    
+    func testParseIdentifier() {
+        let parser = Parser(name: "3ABC4DEFG")
+        XCTAssertEqual(parser.parseIdentifier(), "ABC")
+        XCTAssertEqual(parser.remains, "4DEFG")
+        XCTAssertEqual(parser.parseIdentifier(), "DEFG")
+    }
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
