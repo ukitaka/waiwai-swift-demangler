@@ -1,3 +1,3 @@
 public func demangle(name: String) -> String {
-    return name
+    return Parser(name: name).parse().description
 }

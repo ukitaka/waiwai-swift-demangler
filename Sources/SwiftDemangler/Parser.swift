@@ -191,3 +191,35 @@ extension Parser {
         return self.parseFunctionEntity()
     }
 }
+
+// MARK: - Step9
+
+extension Type: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .bool:
+            return "Swift.Bool"
+        case .int:
+            return "Swift.Int"
+        case .string:
+            return "Swift.String"
+        case .float:
+            return "Swift.Float"
+        case .list(let list):
+            return "(" + list.map { $0.description }.joined(separator: ",") + ")"
+        }
+    }
+}
+
+extension FunctionEntity: CustomStringConvertible {
+    private var args: String {
+        guard case .list(let argList) = functionSignature.argsType else {
+            return "()"
+        }
+        return "(" + zip(labelList, argList).map { (label, type) in "\(label): \(type)" }.joined(separator: ",") + ")"
+    }
+
+    var description: String {
+        return "\(module).\(declName)\(args) -> \(functionSignature.returnType)"
+    }
+}
