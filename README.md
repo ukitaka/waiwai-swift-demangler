@@ -7,6 +7,10 @@
 + Xcode 10.1
 + Swift 4.2.1
 
+```
+$ swift package generate-xcodeproj
+```
+
 ## BNF
 
 今回はもっともシンプルな関数+αのDemangleのみを扱います。
