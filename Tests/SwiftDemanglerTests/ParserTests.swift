@@ -20,26 +20,26 @@ class ParserTests: XCTestCase {
 
     func testParseInt() {
         var parser = Parser(name: "0")
-        
-        // 0
+//
+//        // 0
         XCTAssertEqual(parser.parseInt(), 0)
         XCTAssertEqual(parser.remains, "")
-        
+
         // 1
         parser = Parser(name: "1")
         XCTAssertEqual(parser.parseInt(), 1)
         XCTAssertEqual(parser.remains, "")
-        
+
         // 12
         parser = Parser(name: "12")
         XCTAssertEqual(parser.parseInt(), 12)
         XCTAssertEqual(parser.remains, "")
-        
+
         // 12
         parser = Parser(name: "12A")
         XCTAssertEqual(parser.parseInt(), 12)
         XCTAssertEqual(parser.remains, "A")
-        
+
         // 1
         parser = Parser(name: "1B2A")
         XCTAssertEqual(parser.parseInt(), 1)
@@ -65,6 +65,13 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(parser.parseIdentifier(), "ABC")
         XCTAssertEqual(parser.remains, "4DEFG")
         XCTAssertEqual(parser.parseIdentifier(), "DEFG")
+    }
+    
+    func testParsePrefixAndParseModule() {
+        let parser = Parser(name: "$S13ExampleNumber6isEven6numberSbSi_tF")
+        let _ = parser.parsePrefix()
+        XCTAssertEqual(parser.remains, "13ExampleNumber6isEven6numberSbSi_tF")
+        XCTAssertEqual(parser.parseModule(), "ExampleNumber")
     }
 
     func testPerformanceExample() {

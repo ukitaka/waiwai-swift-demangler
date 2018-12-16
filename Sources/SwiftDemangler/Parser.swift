@@ -8,8 +8,8 @@
 import Foundation
 
 class Parser {
-    private let whole: String
-    private var index: String.Index
+    let whole: String
+    var index: String.Index
     
     var currentOffset: Int {
         return whole.count - remains.count
@@ -23,6 +23,10 @@ class Parser {
         self.whole = name
         self.index = whole.startIndex
     }
+    
+    func advance(to offset: Int) {
+        index = String.Index(encodedOffset: offset)
+    }
 }
 
 extension Character {
@@ -34,22 +38,22 @@ extension Character {
 extension Parser {
     func parseInt() -> Int? {
         var str: String = ""
-        for (offset, character) in remains.enumerated() {
+        for character in remains {
             if character.asInt() == nil {
                 break
             }
-            index = String.Index(encodedOffset: offset + 1)
             str.append(character)
         }
         
+        advance(to: currentOffset + str.count)
         return Int(str)
     }
 }
 
 extension Parser {
     func parseIdentifier(length: Int) -> String {
-        let identifier = whole.prefix(length)
-        index = String.Index(encodedOffset: currentOffset + length)
+        let identifier = remains.prefix(length)
+        advance(to: currentOffset + length)
         return String(identifier)
     }
     
@@ -62,3 +66,25 @@ extension Parser {
         return parseIdentifier(length: length)
     }
 }
+
+extension Parser {
+    func parsePrefix() -> String {
+        if !isSwiftSymbol(name: remains) {
+            return remains
+        }
+        
+        advance(to: Const.swiftSymbol.count)
+        return remains
+    }
+
+}
+extension Parser {
+    func parseModule() -> String {
+        let _ = parsePrefix()
+        guard let identifier = parseIdentifier() else {
+            fatalError()
+        }
+        return identifier
+    }
+}
+
